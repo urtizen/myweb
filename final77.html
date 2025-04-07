@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praise and Compatibility Check</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+            width: 80%;
+            max-width: 600px;
+            animation: fadeIn 2s ease-out;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #ff77b9;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        p {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInText 1.5s ease-out forwards;
+        }
+
+        input {
+            font-size: 1.2em;
+            padding: 10px;
+            margin: 10px 0;
+            width: 70%;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+        }
+
+        button {
+            background-color: #ff77b9;
+            color: white;
+            font-size: 1.2em;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+            transition: 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #ff4081;
+            transform: scale(1.1);
+        }
+
+        #compatibilitySection, #praiseSection {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            border-radius: 10px;
+        }
+
+        .compatibility-result {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ff77b9;
+        }
+
+        .question {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
+        .question input {
+            padding: 10px;
+            font-size: 1.2em;
+            width: 70%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInText {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Your Personal Assistant!</h1>
+        
+        <!-- Praise Section -->
+        <div id="praiseSection">
+            <h2>Praise Your Intelligence 🧠</h2>
+            <p id="praiseMessage">Enter your name to get started!</p>
+            <input type="text" id="nameInput" placeholder="Enter your name..." oninput="enablePraiseButton()">
+            <button id="praiseButton" onclick="praisePerson()" disabled>Praise Intelligence</button>
+            <p id="praiseMessageContent" style="display: none;"></p>
+            <button onclick="showCompatibilitySection()">Go to Compatibility Check</button>
+        </div>
+
+        <!-- Compatibility Section -->
+        <div id="compatibilitySection">
+            <h2>Compatibility Test 💑</h2>
+            <p>Enter the names of two people to check compatibility:</p>
+            <div>
+                <div class="question">
+                    <label for="name1">Enter the first person's name:</label>
+                    <input type="text" id="name1">
+                </div>
+                <div class="question">
+                    <label for="name2">Enter the second person's name:</label>
+                    <input type="text" id="name2">
+                </div>
+                <button onclick="calculateCompatibility()">Check Compatibility</button>
+            </div>
+            <p id="compatibilityResult" class="compatibility-result"></p>
+            <button onclick="showPraiseSection()">Go to Praise Section</button>
+        </div>
+
+        <!-- Buttons to switch between sections -->
+        <div id="initialButtons">
+            <button onclick="showPraiseSection()">Praise Intelligence 🧠</button>
+            <button onclick="showCompatibilitySection()">Check Compatibility ❤️</button>
+        </div>
+    </div>
+
+    <script>
+        let name = '';
+        let praises = [
+            "You are incredibly brilliant, {{name}}! Your intelligence knows no bounds! 🧠",
+            "Your sharp mind is one of a kind, {{name}}! The world needs more thinkers like you! 🤓",
+            "Your brilliance shines through, {{name}}! Keep inspiring the world with your intellect! 🌟",
+            "You're a genius, {{name}}! Every idea you touch turns into gold! ✨"
+        ];
+
+        // Enable praise button if name is entered
+        function enablePraiseButton() {
+            const nameInput = document.getElementById('nameInput');
+            const praiseButton = document.getElementById('praiseButton');
+            praiseButton.disabled = nameInput.value.trim() === '';
+            name = nameInput.value.trim();
+        }
+
+        // Praise the person based on their name
+        function praisePerson() {
+            let randomPraise = praises[Math.floor(Math.random() * praises.length)];
+            document.getElementById('praiseMessage').style.display = 'none';
+            document.getElementById('nameInput').style.display = 'none';
+            document.getElementById('praiseButton').style.display = 'none';
+
+            document.getElementById('praiseMessageContent').style.display = 'block';
+            document.getElementById('praiseMessageContent').innerHTML = randomPraise.replace("{{name}}", name);
+        }
+
+        // Show praise section
+        function showPraiseSection() {
+            document.getElementById('compatibilitySection').style.display = 'none';
+            document.getElementById('praiseSection').style.display = 'block';
+            document.getElementById('initialButtons').style.display = 'none';
+        }
+
+        // Show compatibility section
+        function showCompatibilitySection() {
+            document.getElementById('praiseSection').style.display = 'none';
+            document.getElementById('compatibilitySection').style.display = 'block';
+            document.getElementById('initialButtons').style.display = 'none';
+        }
+
+        // Calculate compatibility score based on names
+        function calculateCompatibility() {
+            let name1 = document.getElementById('name1').value.trim();
+            let name2 = document.getElementById('name2').value.trim();
+            
+            if (!name1 || !name2) {
+                alert('Please enter both names.');
+                return;
+            }
+
+            // Simple random compatibility based on name length (this is just for fun)
+            let compatibilityScore = Math.floor(Math.random() * (100 - 60 + 1)) + 60;
+            document.getElementById('compatibilityResult').innerText = `${name1} & ${name2} - Compatibility Score: ${compatibilityScore}% ❤️`;
+        }
+    </script>
+</body>
+</html>
